@@ -6,22 +6,18 @@ const PORT = 3000;
 const express = require('express');
 const app = express();
 
-app.use(bodyParser.urlencoded());
+// importing my routes
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
-app.use('/add-product', (req, res) => {
-  res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>');
-});
+app.use(bodyParser.urlencoded({extended:true}));
 
-app.post('/product', (req, res) => {
-  console.log(req.body);
-  console.log('in the /product...');
-  res.redirect('/');
-});
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 
-app.use('/', (req, res, next) => {
-  res.send('<h1>Hi there</h1>');
-});
-
+app.use('/', (req, res) => {
+  res.status(404).send('<h1>No page found</h1>');
+})
 const server = http.createServer(app);
 
 server.listen(PORT, () => {
