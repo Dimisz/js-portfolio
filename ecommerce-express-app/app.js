@@ -1,7 +1,6 @@
 const http = require('http');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { engine } = require('express-handlebars');
 
 const PORT = 3000;
 
@@ -10,27 +9,20 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
-// app.engine('hbs', engine({
-//   extname: 'hbs',
-//   layoutsDir: 'views/layouts',
-//   defaultLayout: 'main-layout',
-// }));
-// app.set('view engine', 'hbs');
-// app.set('view engine', 'pug');
 
 // importing my routes
-const adminData = require('./routes/admin');
+const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/admin', adminData.routes);
+app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 app.use('/', (req, res) => {
-  //res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
   res.status(404).render('404', {pageTitle: '404 Elol', path: null});
 })
+
 const server = http.createServer(app);
 
 server.listen(PORT, () => {
