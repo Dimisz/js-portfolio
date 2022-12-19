@@ -1,13 +1,20 @@
 const http = require('http');
 const bodyParser = require('body-parser');
 const path = require('path');
+const { engine } = require('express-handlebars');
 
 const PORT = 3000;
 
 const express = require('express');
 const app = express();
 
-app.set('view engine', 'pug');
+app.engine('hbs', engine({
+  extname: 'hbs',
+  layoutsDir: 'views/layouts',
+  defaultLayout: 'main-layout',
+}));
+app.set('view engine', 'hbs');
+// app.set('view engine', 'pug');
 
 // importing my routes
 const adminData = require('./routes/admin');
@@ -20,7 +27,7 @@ app.use(shopRoutes);
 
 app.use('/', (req, res) => {
   //res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-  res.status(404).render('404', {docTitle: '404 Error'});
+  res.status(404).render('404', {pageTitle: '404 Errorrrr'});
 })
 const server = http.createServer(app);
 
