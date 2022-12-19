@@ -8,12 +8,14 @@ const PORT = 3000;
 const express = require('express');
 const app = express();
 
-app.engine('hbs', engine({
-  extname: 'hbs',
-  layoutsDir: 'views/layouts',
-  defaultLayout: 'main-layout',
-}));
-app.set('view engine', 'hbs');
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+// app.engine('hbs', engine({
+//   extname: 'hbs',
+//   layoutsDir: 'views/layouts',
+//   defaultLayout: 'main-layout',
+// }));
+// app.set('view engine', 'hbs');
 // app.set('view engine', 'pug');
 
 // importing my routes
@@ -27,7 +29,7 @@ app.use(shopRoutes);
 
 app.use('/', (req, res) => {
   //res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-  res.status(404).render('404', {pageTitle: '404 Errorrrr'});
+  res.status(404).render('404', {pageTitle: '404 Elol', path: null});
 })
 const server = http.createServer(app);
 
