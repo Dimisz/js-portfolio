@@ -2,6 +2,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const errorsControllers = require('./controllers/errors');
 const PORT = 3000;
 
 const express = require('express');
@@ -19,9 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
-app.use('/', (req, res) => {
-  res.status(404).render('404', {pageTitle: '404 Elol', path: null});
-})
+app.use('/',errorsControllers.getPageNotFound);
 
 const server = http.createServer(app);
 
